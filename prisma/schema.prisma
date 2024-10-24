@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
+enum UserRole {
   USER
   ADMIN
 }
@@ -17,11 +17,11 @@ model User {
   name     String
   email    String       @unique
   password String
-  role     Role         @default(USER)
+  role     UserRole     @default(USER)
   tickets  TicketUser[]
 }
 
-model Ticket {
+model Event {
   id        Int          @id @default(autoincrement())
   eventName String
   date      DateTime
@@ -30,11 +30,11 @@ model Ticket {
 }
 
 model TicketUser {
-  id       Int    @id @default(autoincrement())
+  id       Int   @id @default(autoincrement())
   userId   Int
   ticketId Int
-  user     User   @relation(fields: [userId], references: [id])
-  ticket   Ticket @relation(fields: [ticketId], references: [id])
+  user     User  @relation(fields: [userId], references: [id])
+  ticket   Event @relation(fields: [ticketId], references: [id])
 
   @@unique([userId, ticketId])
 }

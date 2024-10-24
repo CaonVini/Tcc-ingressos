@@ -1,9 +1,20 @@
 import { Router } from 'express';
+
+// Middlewares //
+
+import checkUserRole from '../middlewares/PermissionMiddleware';
+import verifyTokenAccess from '../middlewares/AuthMiddleware';
+
+// Controllers
+
 import { CreateUserController } from '../controllers/CreateUserController';
 import { DeleteUserController } from '../controllers/DeleteUserController';
 import ListUserController  from '../controllers/ListUserController';
 import LoginUserController from '../controllers/LoginUserController';
-import verifyTokenAccess from '../middlewares/AuthMiddleware';
+import LoggedUserController from '../controllers/Loggeduser';
+import CreateEventController from '../controllers/CreateEventController';
+
+
 
 const routes = Router();
 
@@ -20,11 +31,19 @@ routes.delete('/delete/user', verifyTokenAccess, (req, res) =>  {
 });
 
 routes.get('/list/user', verifyTokenAccess, (req, res) => {
-    return new ListUserController().handle(req, res); // Certifique-se de que ListUserController é uma classe
+    return new ListUserController().handle(req, res); 
 });
 
 routes.get('/auth/user', (req, res) =>  {
-    return new LoginUserController().handle(req, res) // Ensure ListUserController is a class
+    return new LoginUserController().handle(req, res) 
+});
+
+routes.get("/me", verifyTokenAccess, (req, res) => {
+    return new LoggedUserController().handle(req, res);
+});
+
+routes.post('/create/event', verifyTokenAccess, checkUserRole, (req, res) =>  {
+    return new CreateEventController().handle(req, res)
 });
 
 export default routes;

@@ -12,7 +12,13 @@ declare global {
 }
 
 function verifyTokenAccess(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers['authorization'];
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader) {
+        return res.status(401).json({ msgError: "Token não fornecido." });
+    }
+
+    const token = authHeader.split(' ')[1];
 
     if (!token) {
         return res.status(401).json({ msgError: "Token não fornecido." });
@@ -20,17 +26,17 @@ function verifyTokenAccess(req: Request, res: Response, next: NextFunction) {
 
     const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
     if (!JWT_SECRET_TOKEN) {
+        console.error("JWT_SECRET_TOKEN não está definido.");
         return res.status(500).json({ msgError: "Erro de configuração do servidor." });
     }
 
-    const bearerToken = token.split(' ')[1];
-
-    jwt.verify(bearerToken, JWT_SECRET_TOKEN, (err, decoded) => {
+    jwt.verify(token, JWT_SECRET_TOKEN, (err, decodedToken) => {
         if (err) {
+            console.error("Erro ao verificar o token:", err);
             return res.status(403).json({ msgError: "Token inválido." });
         }
-        
-        req.user = decoded; 
+
+        req.user = decodedToken; 
         next(); 
     });
 }
