@@ -36,6 +36,7 @@ function verifyTokenAccess(req: Request, res: Response, next: NextFunction) {
             return res.status(403).json({ msgError: "Token inválido." });
         }
 
+        console.log("Token decodificado:", decodedToken); // Para depuração
         req.user = decodedToken; 
         next(); 
     });

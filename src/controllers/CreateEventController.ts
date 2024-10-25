@@ -12,7 +12,7 @@ class CreateEventController{
         const eventService = new CreateEventService();
 
         try {
-            const user = await eventService.execute({ eventName, date, price });
+            const eventCreate = await eventService.execute({ eventName, date, price });
             res.status(201).send({ eventName, date, price });
         } catch (error) {
             if (error && typeof error === 'object' && 'statusCode' in error && 'msgError' in error) {

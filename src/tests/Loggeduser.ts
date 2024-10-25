@@ -23,6 +23,8 @@ class LoggedUserController {
         });
         
         const userId = req.user.userId; 
+
+        
         
         return res.status(200).json({ 
             msg: "Usuário autenticado.",  

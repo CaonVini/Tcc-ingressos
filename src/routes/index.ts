@@ -11,8 +11,10 @@ import { CreateUserController } from '../controllers/CreateUserController';
 import { DeleteUserController } from '../controllers/DeleteUserController';
 import ListUserController  from '../controllers/ListUserController';
 import LoginUserController from '../controllers/LoginUserController';
-import LoggedUserController from '../controllers/Loggeduser';
+import LoggedUserController from '../tests/Loggeduser';
 import CreateEventController from '../controllers/CreateEventController';
+import ParticipateEventController from '../controllers/ParticipateEventController';
+import ParticipatingEventsController from '../controllers/ParticipatingEventsController';
 
 
 
@@ -45,5 +47,14 @@ routes.get("/me", verifyTokenAccess, (req, res) => {
 routes.post('/create/event', verifyTokenAccess, checkUserRole, (req, res) =>  {
     return new CreateEventController().handle(req, res)
 });
+
+routes.post('/participate/event', verifyTokenAccess, (req, res) =>  {
+    return new ParticipateEventController().handle(req, res)
+});
+
+routes.get('/list/event/user', verifyTokenAccess, (req, res) =>  {
+    return new ParticipatingEventsController().handle(req, res)
+});
+
 
 export default routes;
