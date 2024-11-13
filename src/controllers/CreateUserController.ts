@@ -21,7 +21,6 @@ class CreateUserController {
                 const { statusCode, msgError } = error as ErrorType;
                 res.status(statusCode).json({ statusCode, msgError });
             } else {
-                // Para erros inesperados, retorna um erro genérico
                 res.status(500).json({ msgError: "Erro interno do servidor." });
             }
         }
