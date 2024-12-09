@@ -36,7 +36,7 @@ routes.get('/list/user', verifyTokenAccess, (req, res) => {
     return new ListUserController().handle(req, res); 
 });
 
-routes.get('/auth/user', (req, res) =>  {
+routes.post('/auth/user', (req, res) =>  {
     return new LoginUserController().handle(req, res) 
 });
 
