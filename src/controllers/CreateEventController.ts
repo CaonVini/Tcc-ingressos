@@ -1,19 +1,30 @@
 import { Request, Response } from "express";
 import CreateEventService from "../services/CreateEventService";
+import { TagsEvent } from "@prisma/client";
 
 interface ErrorType {
     statusCode: number;
     msgError: string;
 }
 
-class CreateEventController{
-    async handle(req: Request, res: Response){
-        const { eventName, date, price} = req.body as { eventName: string, date: number, price: number }
+class CreateEventController {
+    async handle(req: Request, res: Response) {
+        const { eventName, date, price, localEvent, tags } = req.body as {
+            eventName: string;
+            date: number;
+            price: number;
+            localEvent: string;
+            tags: TagsEvent;
+        };
+
         const eventService = new CreateEventService();
 
         try {
-            const eventCreate = await eventService.execute({ eventName, date, price });
-            res.status(201).send({ eventName, date, price });
+            // Passando todos os dados para o serviço de criação
+            const eventCreate = await eventService.execute({ eventName, date, price, localEvent, tags });
+            
+            // Enviando a resposta de sucesso com os detalhes do evento criado
+            res.status(201).send({ eventName, date, price, localEvent, tags });
         } catch (error) {
             if (error && typeof error === 'object' && 'statusCode' in error && 'msgError' in error) {
                 const { statusCode, msgError } = error as ErrorType;
@@ -29,7 +40,6 @@ class CreateEventController{
                 res.status(500).json({ msgError: "Erro desconhecido." });
             }
         }
-
     }
 }
 

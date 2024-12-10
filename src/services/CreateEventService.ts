@@ -1,15 +1,17 @@
 import prisma from "../utils/db";
+import { TagsEvent } from "@prisma/client";
 
-interface CreateTicketProps{
-    eventName: string
-    date: number,
-    price: number,
+interface CreateEventProps {
+    eventName: string;
+    date: number;
+    price: number;
+    localEvent: string;
+    tags: TagsEvent;
 }
 
 class CreateEventService {
-    async execute({ eventName, date, price }: CreateTicketProps) {
-
-        if (!eventName || !date || !price) {
+    async execute({ eventName, date, price, localEvent, tags }: CreateEventProps) {
+        if (!eventName || !date || !price || !localEvent || !tags) {
             throw {
                 statusCode: 400,
                 msgError: "Preencha todos os campos."
@@ -27,6 +29,22 @@ class CreateEventService {
             throw {
                 statusCode: 400,
                 msgError: "O preço deve ser maior que zero."
+            };
+        }
+
+        if (localEvent.length < 2 || localEvent.length > 100) {
+            throw {
+                statusCode: 400,
+                msgError: "O local do evento deve ter entre 2 e 100 caracteres."
+            };
+        }
+
+        // Validação de tags se você estiver usando um tipo de enum específico
+        const validTags = ["MUSICA", "TEATRO", "COMEDIA", "PALESTRA"];
+        if (!validTags.includes(tags)) {
+            throw {
+                statusCode: 400,
+                msgError: "Tag inválida. Escolha uma das tags válidas: MUSICA, ENTRETENIMENTO, COMEDIA, PALESTRA."
             };
         }
 
@@ -51,7 +69,6 @@ class CreateEventService {
                 msgError: "A data fornecida não é válida."
             };
         }
-
 
         const currentDate = new Date();
         if (eventDate < currentDate) {
@@ -80,6 +97,8 @@ class CreateEventService {
                 eventName,
                 date: eventDate, 
                 price: Number(price),
+                localEvent,
+                tags
             }
         });
 

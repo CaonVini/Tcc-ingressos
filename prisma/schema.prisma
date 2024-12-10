@@ -12,6 +12,13 @@ enum UserRole {
   ADMIN
 }
 
+enum TagsEvent {
+  MUSICA
+  TEATRO
+  COMEDIA
+  PALESTRA
+}
+
 model User {
   id       Int          @id @default(autoincrement())
   name     String
@@ -22,11 +29,13 @@ model User {
 }
 
 model Event {
-  id        Int          @id @default(autoincrement())
-  eventName String
-  date      DateTime
-  price     Float
-  users     TicketUser[]
+  id          Int          @id @default(autoincrement())
+  eventName   String
+  date        DateTime
+  price       Float
+  localEvent  String
+  tags        TagsEvent
+  users       TicketUser[]
 }
 
 model TicketUser {

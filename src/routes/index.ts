@@ -15,6 +15,7 @@ import LoggedUserController from '../tests/Loggeduser';
 import CreateEventController from '../controllers/CreateEventController';
 import ParticipateEventController from '../controllers/ParticipateEventController';
 import ParticipatingEventsController from '../controllers/ParticipatingEventsController';
+import ListEventController from '../controllers/ListEventsController';
 
 
 
@@ -54,6 +55,10 @@ routes.post('/participate/event', verifyTokenAccess, (req, res) =>  {
 
 routes.get('/list/event/user', verifyTokenAccess, (req, res) =>  {
     return new ParticipatingEventsController().handle(req, res)
+});
+
+routes.get('/list/event', verifyTokenAccess, (req, res) =>  {
+    return new ListEventController().handle(req, res)
 });
 
 
