@@ -16,7 +16,7 @@ class ParticipatingEventsService{
         } catch (error: any) {
             if (error instanceof Error) {
                 throw {
-                    statusCode: 500, // Erro interno do servidor
+                    statusCode: 500, 
                     msgError: "Erro ao listar eventos do usuario. Tente novamente mais tarde."
                 };
             } 

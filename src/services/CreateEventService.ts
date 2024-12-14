@@ -39,7 +39,6 @@ class CreateEventService {
             };
         }
 
-        // Validação de tags se você estiver usando um tipo de enum específico
         const validTags = ["MUSICA", "TEATRO", "COMEDIA", "PALESTRA"];
         if (!validTags.includes(tags)) {
             throw {
@@ -58,7 +57,7 @@ class CreateEventService {
         }
 
         const day = parseInt(cleanedDate.substring(0, 2), 10);
-        const month = parseInt(cleanedDate.substring(2, 4), 10) - 1; // Janeiro é 0 no JS
+        const month = parseInt(cleanedDate.substring(2, 4), 10) - 1; 
         const year = parseInt(cleanedDate.substring(4), 10);
 
         const eventDate = new Date(year, month, day);

@@ -23,5 +23,5 @@ class ListEventController {
     }
 }
 
-// Export the class directly
+
 export default ListEventController;

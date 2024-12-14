@@ -16,7 +16,6 @@ class CreateUserController {
             const user = await userService.execute({ name, email, password });
             res.status(201).send({ name, email });
         } catch (error) {
-            // Verifica se o erro é do tipo CustomError
             if (error && typeof error === 'object' && 'statusCode' in error && 'msgError' in error) {
                 const { statusCode, msgError } = error as ErrorType;
                 res.status(statusCode).json({ statusCode, msgError });

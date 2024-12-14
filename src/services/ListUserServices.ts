@@ -9,7 +9,7 @@ class ListUserService {
         } catch (error: any) {
             if (error instanceof Error) {
                 throw {
-                    statusCode: 500, // Erro interno do servidor
+                    statusCode: 500, 
                     msgError: "Erro ao buscar usuários. Tente novamente mais tarde."
                 };
             } 

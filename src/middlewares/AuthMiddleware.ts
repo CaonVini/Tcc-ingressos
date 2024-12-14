@@ -6,7 +6,7 @@ dotenv.config();
 declare global {
     namespace Express {
         interface Request {
-            user?: any; // Defina o tipo de acordo com suas necessidades
+            user?: any; 
         }
     }
 }
@@ -36,7 +36,7 @@ function verifyTokenAccess(req: Request, res: Response, next: NextFunction) {
             return res.status(403).json({ msgError: "Token inválido." });
         }
 
-        console.log("Token decodificado:", decodedToken); // Para depuração
+        console.log("Token decodificado:", decodedToken); 
         req.user = decodedToken; 
         next(); 
     });

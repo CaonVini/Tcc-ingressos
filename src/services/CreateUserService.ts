@@ -39,7 +39,6 @@ class CreateUserService {
             };
         }
 
-        // Verifica se o usuário já existe
         const userExists = await prisma.user.findMany({
             where: {
                 email: email,

@@ -24,5 +24,5 @@ class ListUserController {
     }
 }
 
-// Export the class directly
+
 export default ListUserController;
